@@ -1,11 +1,9 @@
 {
   "name": "@montacasa/montacasa-sitemap-generator",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Montacasa's frontend sitemap generator",
   "main": "index.js",
   "author": "ti@montacasa.com.br",
-  "license": "UNLICENSED",
-  "private": true,
   "scripts": {
     "lint": "eslint ."
   },
