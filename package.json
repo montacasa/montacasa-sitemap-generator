@@ -1,0 +1,30 @@
+{
+  "name": "@montacasa/montacasa-sitemap-generator",
+  "version": "0.0.0",
+  "description": "Montacasa's frontend sitemap generator",
+  "main": "index.js",
+  "author": "ti@montacasa.com.br",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.2.5",
+    "eslint": "^5.0.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-prettier": "^2.6.1",
+    "prettier": "^1.13.6",
+    "sitemap-generator": "^8.2.2"
+  },
+  "devDependencies": {
+    "@montacasa/cz-mc": "^0.2.0-rc.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/@montacasa/cz-mc"
+    }
+  }
+}
