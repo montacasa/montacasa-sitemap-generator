@@ -1,6 +1,6 @@
 {
   "name": "@montacasa/sitemap-generator",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Montacasa's frontend sitemap generator",
   "main": "lib/index.js",
   "author": "ti@montacasa.com.br",
@@ -14,8 +14,7 @@
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-prettier": "^2.6.1",
-    "prettier": "^1.13.6",
-    "sitemap-generator": "^8.2.2"
+    "prettier": "^1.13.6"
   },
   "devDependencies": {
     "@montacasa/cz-mc": "^0.2.0-rc.2"
