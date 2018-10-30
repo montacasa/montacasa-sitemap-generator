@@ -1,6 +1,6 @@
 {
   "name": "@montacasa/sitemap-generator",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Montacasa's frontend sitemap generator",
   "main": "lib/index.js",
   "author": "ti@montacasa.com.br",
