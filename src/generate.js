@@ -22,7 +22,11 @@ const generate = ({filepath, pages, urls}) => {
 
       // Split sitemap.xml into multiple files
       for (let i = 0; i < sitemapsCount; i++) {
-        const file = `sitemap-${i}.xml`; // Define a single path
+        const name = filepath.substring(
+          filepath.lastIndexOf('/') + 1,
+          filepath.lastIndexOf('.'),
+        );
+        const file = `${name}-${i}.xml`; // Define a single path
         list += `<sitemap><loc>${file}</loc></sitemap>`; // Add it to the list
 
         // Define new file path based on filepath variable. e.g.: src/sitemap-0.xml if filepath is src/sitemap.xml
