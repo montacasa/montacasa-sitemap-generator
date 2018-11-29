@@ -6,7 +6,6 @@ const generate = ({filepath, pages, urls}) => {
 
   // Generate one or more files depending on the amount of links
   if (sitemapsCount === 1) {
-    console.log({sitemapsCount});
     // Generate one single file
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${pages}</urlset>`; // eslint-disable-line max-len
     // eslint-disable-next-line consistent-return
@@ -22,7 +21,7 @@ const generate = ({filepath, pages, urls}) => {
       let lastLink = 0;
 
       // Split sitemap.xml into multiple files
-      for (let i in sitemapsCount) {
+      for (let i = 0; i < sitemapsCount; i++) {
         const file = `sitemap-${i}.xml`; // Define a single path
         list += `<sitemap><loc>${file}</loc></sitemap>`; // Add it to the list
 
