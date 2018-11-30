@@ -1,6 +1,10 @@
 const fs = require('fs');
 
-const generate = ({filepath, pages, urls}) => {
+const generate = ({filepath, pages, urls: rawUrls}) => {
+  const urls = rawUrls.filter(
+    (item, index, self) => index === self.indexOf(item),
+  );
+
   const numberPerSitemap = 50000; // Limit the number of links per sitemap
   const sitemapsCount = Math.ceil(urls.length / numberPerSitemap); // Count how many sitemap files should be generated
 
