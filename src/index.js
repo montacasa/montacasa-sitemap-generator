@@ -1,7 +1,8 @@
 const generate = require('./generate');
 
 // Create library module
-const montacasaSitemapGenerator = ({
+const sitemapGenerator = ({
+  domain,
   urls: rawUrls,
   filepath = './sitemap.xml',
 }) => {
@@ -31,7 +32,7 @@ const montacasaSitemapGenerator = ({
       counter++;
     },
     start: () => {
-      generate({filepath, pages, urls});
+      generate({domain, filepath, pages, urls});
       const message = `DONE! A file at ${filepath} was generated with ${counter} urls.`;
       console.info(message);
     },
@@ -46,4 +47,4 @@ const montacasaSitemapGenerator = ({
   generator.start();
 };
 
-module.exports = montacasaSitemapGenerator;
+module.exports = sitemapGenerator;
