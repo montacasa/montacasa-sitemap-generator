@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const generate = ({filepath, pages, urls: rawUrls}) => {
+const generate = ({domain, filepath, pages, urls: rawUrls}) => {
   const urls = rawUrls.filter(
     (item, index, self) => index === self.indexOf(item),
   );
@@ -31,7 +31,7 @@ const generate = ({filepath, pages, urls: rawUrls}) => {
           filepath.lastIndexOf('.'),
         );
         const file = `${name}-${i}.xml`; // Define a single path
-        list += `<sitemap><loc>${file}</loc></sitemap>`; // Add it to the list
+        list += `<sitemap><loc>${domain}/${file}</loc></sitemap>`; // Add it to the list
 
         // Define new file path based on filepath variable. e.g.: src/sitemap-0.xml if filepath is src/sitemap.xml
         const dir = filepath.substring(0, filepath.lastIndexOf('/'));
@@ -88,7 +88,9 @@ const generate = ({filepath, pages, urls: rawUrls}) => {
     });
   }
   console.info(
-    `Generated ${sitemapsCount} sitemap file${sitemapsCount > 1 ? 's' : ''}.`,
+    `Generated ${sitemapsCount} sitemap file${
+      sitemapsCount > 1 ? 's and an index' : ''
+    }.`,
   );
   return true;
 };
