@@ -88,7 +88,9 @@ const generate = ({filepath, pages, urls: rawUrls}) => {
     });
   }
   console.info(
-    `Generated ${sitemapsCount} sitemap file${sitemapsCount > 1 ? 's' : ''}.`,
+    `Generated ${sitemapsCount} sitemap file${
+      sitemapsCount > 1 ? 's and an index' : ''
+    }.`,
   );
   return true;
 };
