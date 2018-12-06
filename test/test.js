@@ -9,11 +9,15 @@ const generator = require('../src/generator');
 const counter = require('../src/counter');
 const calculator = require('../src/calculator');
 const single = require('../src/single');
+const multiple = require('../src/multiple');
 const urler = require('../src/urler');
 const pager = require('../src/pager');
 const sitemapFormater = require('../src/sitemap-formater');
 const writer = require('../src/writer');
 const reader = require('../src/reader');
+const domainExtractor = require('../src/domain-extractor');
+const fileConfigurator = require('../src/file-configurator');
+const linkReader = require('../src/link-reader');
 
 const dummy = './test/dummy';
 
@@ -70,6 +74,45 @@ describe('Sitemap Generator', () => {
   });
 
   describe('misc', () => {
+    // link reader
+    describe('link reader', () => {
+      it('should be a function', () => {
+        assert.typeOf(linkReader, 'function');
+      });
+    });
+
+    // file configurator
+    describe('file configurator', () => {
+      it('should be a function', () => {
+        assert.typeOf(fileConfigurator, 'function');
+      });
+      it("should return sitemap file's name and path", () => {
+        const domain = 'https://www.example.com';
+        const config = fileConfigurator({
+          number: 1,
+          domain,
+          filepath: './test/sitemap.xml',
+        });
+        const {fullPath, path, name} = config;
+        const expectedName = 'sitemap-1.xml';
+        assert.equal(name, expectedName);
+        assert.equal(fullPath, `${domain}/${expectedName}`);
+        assert.equal(path, './test');
+      });
+    });
+
+    // domain extractor
+    describe('domain extractor', () => {
+      it('should be a function', () => {
+        assert.typeOf(domainExtractor, 'function');
+      });
+      it('should extract a domain', () => {
+        const domain = domainExtractor('https://www.domain.com/xyz');
+        const expected = 'https://www.domain.com';
+        assert.equal(domain, expected);
+      });
+    });
+
     // reader
     describe('file reader', () => {
       it('should be a function', () => {
@@ -111,6 +154,66 @@ describe('Sitemap Generator', () => {
         assert.equal(sitemap, expected);
       });
     });
+    // multiple
+    describe('multiple file generator', () => {
+      it('should be a function', () => {
+        assert.typeOf(multiple, 'function');
+      });
+      it('should generate multiple sitemaps', async () => {
+        const filepath = './test/sitemap.xml';
+        await multiple({
+          urls: [
+            'https://www.domain1.com',
+            'https://www.domain2.com',
+            'https://www.domain3.com',
+            'https://www.domain4.com',
+            'https://www.domain5.com',
+            'https://www.domain6.com',
+          ],
+          count: 2,
+          filepath,
+        });
+        const read = await reader('./test/sitemap-0.xml');
+        const expected =
+          '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://www.domain1.com</loc></url><url><loc>https://www.domain2.com</loc></url></urlset>'; // eslint-disable-line max-len
+        assert.equal(read, expected);
+      });
+      it('should generate an index sitemap', async () => {
+        const filepath = './test/sitemap.xml';
+        await multiple({
+          urls: [
+            'https://www.domain1.com',
+            'https://www.domain2.com',
+            'https://www.domain3.com',
+            'https://www.domain4.com',
+            'https://www.domain5.com',
+            'https://www.domain6.com',
+          ],
+          count: 2,
+          filepath,
+        });
+        const read = await reader(filepath);
+        assert.equal(read, 'sitemapindex');
+      });
+      it('should return a message for a multiple file', async () => {
+        const filepath = './test/sitemap.xml';
+        const sitemaps = await multiple({
+          urls: [
+            'https://www.domain1.com',
+            'https://www.domain2.com',
+            'https://www.domain3.com',
+            'https://www.domain4.com',
+            'https://www.domain5.com',
+            'https://www.domain6.com',
+          ],
+          count: 2,
+          filepath,
+        });
+        const message =
+          'DONE! 3 sitemaps generated with 6 links and an index sitemap file.';
+        assert.equal(sitemaps, message);
+      });
+    });
 
     // single
     describe('single file generator', () => {
@@ -127,9 +230,9 @@ describe('Sitemap Generator', () => {
       });
       it('should return a message for a single file', async () => {
         const filepath = './test/sitemap.xml';
-        const test = await single({urls: [0, 1, 2, 3], count: 4, filepath});
+        const sitemap = await single({urls: [0, 1, 2, 3], count: 4, filepath});
         const message = 'DONE! One single sitemap generated with 4 links.';
-        assert.equal(test, message);
+        assert.equal(sitemap, message);
       });
     });
 
