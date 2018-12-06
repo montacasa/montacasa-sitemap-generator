@@ -5,13 +5,16 @@ const sitemapGenerator = ({
   domain,
   urls: rawUrls,
   filepath = './sitemap.xml',
+  file,
 }) => {
-  if (!rawUrls) {
-    throw new Error('Urls variable not provided.');
+  if (!rawUrls && !file) {
+    throw new Error(
+      'Urls not provided. You must provide either an array or a file.',
+    );
   }
 
   let pages = '';
-  let counter = 0;
+  // let counter = 0;
 
   const unique = xs => {
     const seen = {};
@@ -24,17 +27,20 @@ const sitemapGenerator = ({
     });
   };
 
-  const urls = unique(rawUrls);
+  if (!rawUrls && !file) {
+    throw new Error('You must pass an urls list either with `file` or `urls`.');
+  }
+
+  const urls = rawUrls && unique(rawUrls);
 
   const generator = {
     queueURL: url => {
       pages += `<url><loc>${url}</loc></url> `;
-      counter++;
+      // counter++;
     },
     start: () => {
-      generate({domain, filepath, pages, urls});
-      const message = `DONE! A file at ${filepath} was generated with ${counter} urls.`;
-      console.info(message);
+      generate({domain, filepath, pages, urls, file});
+      console.info('END');
     },
   };
 
