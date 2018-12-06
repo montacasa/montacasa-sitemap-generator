@@ -1,5 +1,5 @@
-const pager = url => {
+const urler = url => {
   return `<url><loc>${url}</loc></url>`;
 };
 
-module.exports = pager;
+module.exports = urler;
