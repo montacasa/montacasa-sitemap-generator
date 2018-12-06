@@ -55,7 +55,8 @@ describe('Sitemap Generator', () => {
           const filepath = './test/sitemap.xml';
           await list({urls: [0, 1, 2, 3], filepath});
           const read = await reader(filepath);
-          const expected = '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>0</loc></url><url><loc>1</loc></url><url><loc>2</loc></url><url><loc>3</loc></url></urlset>'; // eslint-disable-line max-len
+          const expected =
+            '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>0</loc></url><url><loc>1</loc></url><url><loc>2</loc></url><url><loc>3</loc></url></urlset>'; // eslint-disable-line max-len
           assert.equal(read, expected);
         });
         it('should return a message for a single file', async () => {
@@ -115,6 +116,20 @@ describe('Sitemap Generator', () => {
     describe('single file generator', () => {
       it('should be a function', () => {
         assert.typeOf(single, 'function');
+      });
+      it('should generate a single file', async () => {
+        const filepath = './test/sitemap.xml';
+        await single({urls: [0, 1, 2, 3], count: 4, filepath});
+        const read = await reader(filepath);
+        const expected =
+          '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>0</loc></url><url><loc>1</loc></url><url><loc>2</loc></url><url><loc>3</loc></url></urlset>'; // eslint-disable-line max-len
+        assert.equal(read, expected);
+      });
+      it('should return a message for a single file', async () => {
+        const filepath = './test/sitemap.xml';
+        const test = await single({urls: [0, 1, 2, 3], count: 4, filepath});
+        const message = 'DONE! One single sitemap generated with 4 links.';
+        assert.equal(test, message);
       });
     });
 

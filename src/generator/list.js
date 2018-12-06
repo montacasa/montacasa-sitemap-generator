@@ -1,7 +1,6 @@
 const counter = require('../counter');
 const calculator = require('../calculator');
-const sitemapFormater = require('../sitemap-formater');
-const writer = require('../writer');
+const single = require('../single');
 
 const list = async ({urls: raw, file = null, filepath = './sitemap.xml'}) => {
   // Count quantity of links and sitemaps
@@ -9,18 +8,16 @@ const list = async ({urls: raw, file = null, filepath = './sitemap.xml'}) => {
 
   const calculate = calculator({quantity: count});
 
-  // Generate a single file
-  if (calculate === 1) {
-    // TODO: move this to ../single.js
-    const sitemap = sitemapFormater(raw);
-    const message = `DONE! One single sitemap generated with ${count} links.`;
-    const write = await writer({filepath, file: sitemap, message});
-    return write;
+  // Generate a single or multiple files
+  switch (calculate) {
+    case 1:
+      return single({urls: raw, count, filepath});
+    default:
+      // TODO: generate a multiple files
+      return false;
   }
 
-  // TODO: generate a multiple files
-
-  // Generate a multiple files
+  // Generate multiple files
 
   /* eslint-disable max-len */
   /* TODO:
