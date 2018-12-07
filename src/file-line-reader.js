@@ -3,14 +3,11 @@ const fs = require('fs');
 const fileLineReader = (file, func) => {
   return new Promise((resolve, reject) => {
     // Read file line by line
-
     let remaining = '';
     const lineFeed = '\n';
     let lineNr = 0;
 
-    function _processLine(line, lineNumber) {
-      // UPDATE2 with parseFloat
-      const numbers = line;
+    function _processLine(line) {
       func(line);
     }
     fs.createReadStream(file, {encoding: 'utf-8'})
