@@ -3,24 +3,21 @@ const urler = require('./urler');
 const writer = require('./writer');
 const fileConfigurator = require('./file-configurator');
 
-const linkReader = async ({filepath, sitemaps, urls, message}) => {
-  // Loop throught sitemaps
+const linkReader = async ({filepath, count, quantity, urls, message}) => {
+  // Loop throught count
   let lastLink = 0;
-  let nextRange = sitemaps;
+  let nextRange = count;
   const paths = [];
-  for (let s = 0; s <= sitemaps; s++) {
-    // urls = ['link1', 'link2', 'link3']
-    const number = s;
-
+  for (let number = 0; number < count; number++) {
     // Get domain and path using the first url
     const domain = domainExtractor(urls[0]);
     const {name, path, fullPath} = fileConfigurator({number, domain, filepath});
 
     paths.push(fullPath);
 
-    const samplePages = urls.slice(lastLink, nextRange);
+    const samplePages = urls.slice(lastLink, nextRange + 1);
 
-    // Multiple sitemaps generator
+    // Multiple count generator TODO: make a module out of this function
     const generateUrls = pageList => {
       let finalList = '';
       for (let p in pageList) {
@@ -31,28 +28,40 @@ const linkReader = async ({filepath, sitemaps, urls, message}) => {
       return finalList;
     };
 
-    // Prepare sitemap xml file
+    // Prepare sitemap xml file (with max number of files) TODO: make a module out of this functions
     const sitemapPre =
       '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
     const urlsList = generateUrls(samplePages);
     const sitemapPost = '</urlset>';
 
-    // TODO: get path from filepath
-    const fsPath = './test';
-
     const file = `${sitemapPre}${urlsList}${sitemapPost}`;
-    const write = await writer({
+
+    await writer({
       filepath: `${path}/${name}`,
       file,
-      message: '...',
+      message: '...', // TODO!
     });
-    console.info(write);
 
-    lastLink += sitemaps;
-    nextRange += sitemaps;
+    lastLink += quantity;
+    nextRange += quantity;
   }
 
-  console.log({paths}) // TODO: use this variable to generate sitemapindex
+  // TODO: use paths variable to generate sitemapindex
+  const countList = () =>
+    paths.map(path => `<sitemap><loc>${path}</loc></sitemap>`).join('');
+  // Prepare the index file
+  const sitemapPre =
+    '<?xml version="1.0" encoding="UTF-8"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+  const sitemapPost = '</sitemapindex>';
+  const sitemapindex = `${sitemapPre}${countList()}${sitemapPost}`;
+
+  // Write to disk
+  // eslint-disable-next-line consistent-return
+  await writer({
+    filepath, // TODO
+    file: sitemapindex,
+    message: '...',
+  });
 
   return message;
 };
