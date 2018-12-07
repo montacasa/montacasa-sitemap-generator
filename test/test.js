@@ -1,5 +1,4 @@
 /* global describe it */
-const fs = require('fs');
 const {assert, expect} = require('chai');
 
 const main = require('../src/main');
@@ -19,7 +18,10 @@ const domainExtractor = require('../src/domain-extractor');
 const fileConfigurator = require('../src/file-configurator');
 const linkReader = require('../src/link-reader');
 
-const dummy = './test/dummy';
+// Mocks
+const aParcialSitemap = require('./mocks/a-parcial-sitemap');
+const aSitemapIndex = require('./mocks/a-sitemapindex');
+const aSmallListOfLinks = require('./mocks/a-small-list-of-links');
 
 describe('Sitemap Generator', () => {
   // main
@@ -162,51 +164,33 @@ describe('Sitemap Generator', () => {
       it('should generate multiple sitemaps', async () => {
         const filepath = './test/sitemap.xml';
         await multiple({
-          urls: [
-            'https://www.domain1.com',
-            'https://www.domain2.com',
-            'https://www.domain3.com',
-            'https://www.domain4.com',
-            'https://www.domain5.com',
-            'https://www.domain6.com',
-          ],
+          urls: aSmallListOfLinks,
           count: 2,
+          quantity: 3,
           filepath,
         });
         const read = await reader('./test/sitemap-0.xml');
-        const expected =
-          '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://www.domain1.com</loc></url><url><loc>https://www.domain2.com</loc></url></urlset>'; // eslint-disable-line max-len
+        const expected = aParcialSitemap.replace(/(\r\n\t|\n|\r\t)/gm, '');
         assert.equal(read, expected);
       });
       it('should generate an index sitemap', async () => {
         const filepath = './test/sitemap.xml';
         await multiple({
-          urls: [
-            'https://www.domain1.com',
-            'https://www.domain2.com',
-            'https://www.domain3.com',
-            'https://www.domain4.com',
-            'https://www.domain5.com',
-            'https://www.domain6.com',
-          ],
+          urls: aSmallListOfLinks,
           count: 2,
+          quantity: 3,
           filepath,
         });
         const read = await reader(filepath);
-        assert.equal(read, 'sitemapindex');
+        const expected = aSitemapIndex.replace(/(\r\n\t|\n|\r\t)/gm, '');
+        assert.equal(read, expected);
       });
       it('should return a message for a multiple file', async () => {
         const filepath = './test/sitemap.xml';
         const sitemaps = await multiple({
-          urls: [
-            'https://www.domain1.com',
-            'https://www.domain2.com',
-            'https://www.domain3.com',
-            'https://www.domain4.com',
-            'https://www.domain5.com',
-            'https://www.domain6.com',
-          ],
-          count: 2,
+          urls: aSmallListOfLinks,
+          count: 3,
+          quantity: 2,
           filepath,
         });
         const message =
@@ -281,6 +265,17 @@ describe('Sitemap Generator', () => {
         const calculate = calculator({max, quantity});
         assert.deepEqual(calculate, 3);
       });
+      it('should calculate number of sitemaps to generate with default max', () => {
+        const quantity = 200000;
+        const calculate = calculator({quantity});
+        assert.deepEqual(calculate, 4);
+      });
+      it('should round up a float result', () => {
+        const max = 2;
+        const quantity = 7;
+        const calculate = calculator({max, quantity});
+        assert.deepEqual(calculate, 4);
+      });
     });
 
     // counter
@@ -293,6 +288,7 @@ describe('Sitemap Generator', () => {
         assert.deepEqual(list, 3);
       });
       it('should count the number of items on a file', async () => {
+        const dummy = './test/dummy';
         const result = await counter(dummy);
         assert.equal(result, 3);
       });
