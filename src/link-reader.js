@@ -1,12 +1,27 @@
 const domainExtractor = require('./domain-extractor');
-const urler = require('./urler');
 const writer = require('./writer');
 const fileConfigurator = require('./file-configurator');
+const generateUrls = require('./urls-generator');
+const sitemapsWriter = require('./sitemaps-writer');
+const indexGenerator = require('./index-generator');
 
-const linkReader = async ({filepath, count, quantity, urls, message}) => {
+/**
+ * Loop thought array of urls to read and create multiple sitemaps
+ *
+ * @param {Object} params
+ * @param {String} params.filepath The filepath to generate the sitemap index (it is used to determinate the directory
+ *                                 to generate the multiple sitemaps too)
+ * @param {Number} params.count The number of links per sitemap
+ * @param {Number} params.quantity The quantity of sitemaps to generate
+ * @param {Array<String>} params.urls The list of urls to loop thought
+ * @param {String} params.message The final message to return
+ * @returns {Promise<String>} The final message
+ */
+const linkReader = async params => {
+  const {filepath, count, quantity, urls, message} = params;
   // Loop throught count
   let lastLink = 0;
-  let nextRange = count;
+  let nextRange = quantity;
   const paths = [];
   for (let number = 0; number < count; number++) {
     // Get domain and path using the first url
@@ -15,53 +30,21 @@ const linkReader = async ({filepath, count, quantity, urls, message}) => {
 
     paths.push(fullPath);
 
-    const samplePages = urls.slice(lastLink, nextRange + 1);
+    // Get the current pages sample
+    const samplePages = urls.slice(lastLink, nextRange);
 
-    // Multiple count generator TODO: make a module out of this function
-    const generateUrls = pageList => {
-      let finalList = '';
-      for (let p in pageList) {
-        const page = pageList[p];
-        const formated = urler(page);
-        finalList += formated;
-      }
-      return finalList;
-    };
-
-    // Prepare sitemap xml file (with max number of files) TODO: make a module out of this functions
-    const sitemapPre =
-      '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
-    const urlsList = generateUrls(samplePages);
-    const sitemapPost = '</urlset>';
-
-    const file = `${sitemapPre}${urlsList}${sitemapPost}`;
-
-    await writer({
+    // Write a parcial sitemap
+    await sitemapsWriter({
+      list: generateUrls(samplePages),
       filepath: `${path}/${name}`,
-      file,
-      message: '...', // TODO!
     });
 
     lastLink += quantity;
     nextRange += quantity;
   }
 
-  // TODO: use paths variable to generate sitemapindex
-  const countList = () =>
-    paths.map(path => `<sitemap><loc>${path}</loc></sitemap>`).join('');
-  // Prepare the index file
-  const sitemapPre =
-    '<?xml version="1.0" encoding="UTF-8"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
-  const sitemapPost = '</sitemapindex>';
-  const sitemapindex = `${sitemapPre}${countList()}${sitemapPost}`;
-
-  // Write to disk
-  // eslint-disable-next-line consistent-return
-  await writer({
-    filepath, // TODO
-    file: sitemapindex,
-    message: '...',
-  });
+  // Write the index sitemap
+  await indexGenerator({paths, filepath});
 
   return message;
 };

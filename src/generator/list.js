@@ -1,21 +1,19 @@
 const counter = require('../counter');
 const calculator = require('../calculator');
 const single = require('../single');
+const multiple = require('../multiple');
 
-const list = async ({urls: raw, file = null, filepath = './sitemap.xml'}) => {
+const list = async ({urls, filepath = './sitemap.xml', max = 50000}) => {
   // Count quantity of links and sitemaps
-  const count = counter(raw);
-
-  const calculate = calculator({quantity: count});
+  const links = counter(urls);
+  const sitemaps = calculator({max, quantity: links});
 
   // Generate a single or multiple files
-  switch (calculate) {
+  switch (sitemaps) {
     case 1:
-      return single({urls: raw, count, filepath});
+      return single({urls: urls, count: links, filepath});
     default:
-      // TODO: generate a multiple files
-      // multiple -> linkLooper -> generate domain, sitemapName, sitemapPath, updateBatch -> fileWriter
-      return false;
+      return multiple({urls, count: links, quantity: sitemaps, filepath});
   }
 
   // Generate multiple files
@@ -30,7 +28,7 @@ const list = async ({urls: raw, file = null, filepath = './sitemap.xml'}) => {
    *      - a next batch calculator, for defining range of links it should ask for
    *      - a file reader to get the number of lines defined by the previous range -> https://stackoverflow.com/questions/7379310/node-js-how-to-read-one-line-of-numbers-from-a-file-into-an-array
    *      - a file writer to save sitemap-1.xml
-   *  - an indexsitemap generator with
+   *  - an indexsitemap generator
    *  - the final message
    */
 };
