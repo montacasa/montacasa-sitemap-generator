@@ -5,6 +5,10 @@ const main = require('../src/main');
 const generator = require('../src/generator');
 const reader = require('../src/reader');
 
+// Mocks
+const aParcialSitemap = require('./mocks/a-parcial-sitemap');
+const aSmallListOfLinks = require('./mocks/a-small-list-of-links');
+
 describe('Sitemap Generator', () => {
   // main
   describe('main', () => {
@@ -52,6 +56,28 @@ describe('Sitemap Generator', () => {
           const test = await list({urls: [0, 1, 2, 3], filepath});
           const message = 'DONE! One single sitemap generated with 4 links.';
           assert.equal(test, message);
+        });
+        it('should generate multiple sitemaps', async () => {
+          const filepath = './test/files/sitemap.xml';
+          await list({
+            urls: aSmallListOfLinks,
+            filepath,
+            max: 2,
+          });
+          const read = await reader('./test/files/sitemap-0.xml');
+          const expected = aParcialSitemap.replace(/(\r\n\t|\n|\r\t)/gm, '');
+          assert.equal(read, expected);
+        });
+        it('should return a message for a multiple file', async () => {
+          const filepath = './test/files/sitemap.xml';
+          const sitemaps = await list({
+            urls: aSmallListOfLinks,
+            max: 2,
+            filepath,
+          });
+          const message =
+            'DONE! 3 sitemaps generated with 6 links and an index sitemap file.';
+          assert.equal(sitemaps, message);
         });
       });
     });

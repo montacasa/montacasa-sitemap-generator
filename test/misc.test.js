@@ -15,13 +15,55 @@ const reader = require('../src/reader');
 const domainExtractor = require('../src/domain-extractor');
 const fileConfigurator = require('../src/file-configurator');
 const linkReader = require('../src/link-reader');
+const urlsGenerator = require('../src/urls-generator');
+const sitemapsWriter = require('../src/sitemaps-writer');
+const indexGenerator = require('../src/index-generator');
 
 // Mocks
 const aParcialSitemap = require('./mocks/a-parcial-sitemap');
+const aCompleteSitemap = require('./mocks/a-complete-sitemap');
 const aSitemapIndex = require('./mocks/a-sitemapindex');
 const aSmallListOfLinks = require('./mocks/a-small-list-of-links');
 
 describe('misc', () => {
+  // index generator
+  describe('index generator', () => {
+    it('should be a function', () => {
+      assert.typeOf(indexGenerator, 'function');
+    });
+  });
+
+  // sitemaps writer
+  describe('sitemaps writer', () => {
+    it('should be a function', () => {
+      assert.typeOf(sitemapsWriter, 'function');
+    });
+    it('should write a sitemap', async () => {
+      const list = urlsGenerator(aSmallListOfLinks);
+      await sitemapsWriter({
+        list,
+        filepath: './test/files/sitemap-0.xml',
+      });
+      const read = await reader('./test/files/sitemap-0.xml');
+      const expected = aCompleteSitemap.replace(/(\r\n\t|\n|\r\t)/gm, '');
+      assert.equal(read, expected);
+    });
+  });
+
+  // urls generator
+  describe('urls generator', () => {
+    it('should be a function', () => {
+      assert.typeOf(urlsGenerator, 'function');
+    });
+    it('should generate a list of urls parsed by urler', () => {
+      const urls = ['www.example.com/link/1', 'www.example.com/link/2'];
+      const pages = urlsGenerator(urls);
+      const expected =
+        '<url><loc>www.example.com/link/1</loc></url><url><loc>www.example.com/link/2</loc></url>';
+      assert.equal(pages, expected);
+    });
+  });
+
   // link reader
   describe('link reader', () => {
     it('should be a function', () => {
@@ -140,7 +182,7 @@ describe('misc', () => {
         filepath,
       });
       const message =
-        'DONE! 3 sitemaps generated with 6 links and an index sitemap file.';
+        'DONE! 2 sitemaps generated with 6 links and an index sitemap file.';
       assert.equal(sitemaps, message);
     });
   });
