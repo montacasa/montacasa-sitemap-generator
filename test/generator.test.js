@@ -9,6 +9,7 @@ const reader = require('../src/reader');
 const aParcialSitemap = require('./mocks/a-parcial-sitemap');
 const aSmallListOfLinks = require('./mocks/a-small-list-of-links');
 const aCompleteSitemap = require('./mocks/a-complete-sitemap');
+const aBiggerSitemapindex = require('./mocks/a-bigger-sitemapindex');
 
 describe('Sitemap Generator', () => {
   // main
@@ -42,6 +43,27 @@ describe('Sitemap Generator', () => {
           await file({filepath, file: './test/mocks/some-links-file'});
           const read = await reader(filepath);
           const expected = aCompleteSitemap.replace(/(\r\n\t|\n|\r\t)/gm, '');
+          assert.equal(read, expected);
+        });
+        it('should return a message for a single file', async () => {
+          const filepath = './test/files/sitemap.xml';
+          const test = await list({urls: [0, 1, 2, 3], filepath});
+          const message = 'DONE! One single sitemap generated with 4 links.';
+          assert.equal(test, message);
+        });
+      });
+      describe('multiple files', () => {
+        it('should generate a sitemap index', async () => {
+          const filepath = './test/files/sitemap.xml';
+          await file({
+            filepath,
+            file: './test/mocks/a-half-million-links-file',
+          });
+          const read = await reader(filepath);
+          const expected = aBiggerSitemapindex.replace(
+            /(\r\n\t|\n|\r\t)/gm,
+            '',
+          );
           assert.equal(read, expected);
         });
         it('should return a message for a single file', async () => {

@@ -18,12 +18,13 @@ const indexGenerator = require('./index-generator');
  * @returns {Promise<String>} The final message
  */
 const linkReader = async params => {
-  const {filepath, count, quantity, urls, message} = params;
+  const {filepath, count, quantity, urls, message} = params; // TODO: remove count?
+  const perSitemap = count/quantity;
   // Loop throught count
   let lastLink = 0;
-  let nextRange = quantity;
+  let nextRange = perSitemap;
   const paths = [];
-  for (let number = 0; number < count; number++) {
+  for (let number = 0; number < quantity; number++) {
     // Get domain and path using the first url
     const domain = domainExtractor(urls[0]);
     const {name, path, fullPath} = fileConfigurator({number, domain, filepath});
@@ -39,8 +40,8 @@ const linkReader = async params => {
       filepath: `${path}/${name}`,
     });
 
-    lastLink += quantity;
-    nextRange += quantity;
+    lastLink += perSitemap;
+    nextRange += perSitemap;
   }
 
   // Write the index sitemap

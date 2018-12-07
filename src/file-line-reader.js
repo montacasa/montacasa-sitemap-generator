@@ -5,7 +5,6 @@ const fileLineReader = (file, func) => {
     // Read file line by line
     let remaining = '';
     const lineFeed = '\n';
-    let lineNr = 0;
 
     function _processLine(line) {
       func(line);
@@ -34,7 +33,7 @@ const fileLineReader = (file, func) => {
 
         for (let i = 0, length = lines.length; i < length; i++) {
           // process the actual line
-          _processLine(lines[i], lineNr++);
+          _processLine(lines[i]);
         }
       })
       .on('error', err => {
@@ -44,7 +43,7 @@ const fileLineReader = (file, func) => {
         // TODO I'm not sure this is needed, it depends on your data
         // process the reamining data if needed
         if (remaining.length > 0) {
-          _processLine(remaining, lineNr);
+          _processLine(remaining);
         }
         resolve();
       });
