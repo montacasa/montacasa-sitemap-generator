@@ -18,6 +18,7 @@ const linkReader = require('../src/link-reader');
 const urlsGenerator = require('../src/urls-generator');
 const sitemapsWriter = require('../src/sitemaps-writer');
 const indexGenerator = require('../src/index-generator');
+const fileLineReader = require('../src/file-line-reader');
 
 // Mocks
 const aParcialSitemap = require('./mocks/a-parcial-sitemap');
@@ -26,6 +27,23 @@ const aSitemapIndex = require('./mocks/a-sitemapindex');
 const aSmallListOfLinks = require('./mocks/a-small-list-of-links');
 
 describe('misc', () => {
+  // file line reader
+  describe('file line reader', () => {
+    it('should be a function', () => {
+      assert.typeOf(fileLineReader, 'function');
+    });
+    it('should read each line and execute a function', async () => {
+      const arr = [];
+      const func = data => {
+        arr.push(data);
+      };
+      const dummy = './test/dummy';
+      await fileLineReader(dummy, func);
+      const expected = ['0', '1', '2'];
+      assert.deepEqual(arr, expected);
+    });
+  });
+
   // index generator
   describe('index generator', () => {
     it('should be a function', () => {
