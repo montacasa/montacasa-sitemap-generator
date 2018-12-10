@@ -171,7 +171,7 @@ describe('misc', () => {
       const filepath = './test/files/sitemap.xml';
       await multiple({
         urls: aSmallListOfLinks,
-        count: 2,
+        count: 6,
         quantity: 3,
         filepath,
       });
@@ -183,8 +183,8 @@ describe('misc', () => {
       const filepath = './test/files/sitemap.xml';
       await multiple({
         urls: aSmallListOfLinks,
-        count: 2,
-        quantity: 3,
+        count: 6,
+        quantity: 2,
         filepath,
       });
       const read = await reader(filepath);
@@ -195,7 +195,7 @@ describe('misc', () => {
       const filepath = './test/files/sitemap.xml';
       const sitemaps = await multiple({
         urls: aSmallListOfLinks,
-        count: 3,
+        count: 6,
         quantity: 2,
         filepath,
       });

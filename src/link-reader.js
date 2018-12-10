@@ -1,5 +1,4 @@
 const domainExtractor = require('./domain-extractor');
-const writer = require('./writer');
 const fileConfigurator = require('./file-configurator');
 const generateUrls = require('./urls-generator');
 const sitemapsWriter = require('./sitemaps-writer');
@@ -19,11 +18,12 @@ const indexGenerator = require('./index-generator');
  */
 const linkReader = async params => {
   const {filepath, count, quantity, urls, message} = params; // TODO: remove count?
-  const perSitemap = count/quantity;
+  const perSitemap = Math.round(count / quantity);
   // Loop throught count
   let lastLink = 0;
   let nextRange = perSitemap;
   const paths = [];
+
   for (let number = 0; number < quantity; number++) {
     // Get domain and path using the first url
     const domain = domainExtractor(urls[0]);
