@@ -48,7 +48,7 @@ const fileLineReader = (file, func) => {
         reject(err);
       })
       .on('end', function() {
-        // TODO I'm not sure this is needed, it depends on your data
+        // TODO Check for data if this is really needed
         // Process the reamining data if needed
         if (remaining.length > 0) {
           _processLine(remaining);

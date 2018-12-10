@@ -6,7 +6,7 @@ const fs = require('fs');
  * @param {Object} params
  * @param {String} params.filepath The file path to write to.
  * @param {String} params.file The file content data.
- * @param {String} params.message The final message.
+ * @param {String} [params.message] The final message.
  * @returns {Promise<String>} The message.
  */
 function writer(params) {
