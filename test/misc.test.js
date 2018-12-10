@@ -271,11 +271,6 @@ describe('misc', () => {
       const calculate = calculator({max, quantity});
       assert.deepEqual(calculate, 3);
     });
-    it('should calculate number of sitemaps to generate with default max', () => {
-      const quantity = 200000;
-      const calculate = calculator({quantity});
-      assert.deepEqual(calculate, 4);
-    });
     it('should round up a float result', () => {
       const max = 2;
       const quantity = 7;
