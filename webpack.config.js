@@ -4,7 +4,7 @@ const path = require('path');
 module.exports = {
   devtool: 'source-map',
   mode: 'production',
-  entry: './src/index.js',
+  entry: './src/main.js',
   output: {
     path: path.resolve(__dirname, 'lib'),
     filename: 'sitemap-generator.js',
