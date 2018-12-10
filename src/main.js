@@ -1,5 +1,4 @@
 const validator = require('./validator');
-// const uniq = require('./uniq');
 const generator = require('./generator');
 
 /**
@@ -19,13 +18,14 @@ const main = async options => {
   const validate = validator(options);
   if (validate) {
     const {urls, file, filepath, max} = options;
+
+    // Remove duplicates
     if (file) {
       // Use the urls file list to generate by file system
       return await generator.file({file, filepath});
     }
     // Use the urls list to generate by list
     return await generator.list({urls, filepath, max});
-    // TODO: create a uniq function
   }
   return false;
 };

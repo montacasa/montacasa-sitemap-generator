@@ -3,6 +3,7 @@ const calculator = require('../calculator');
 const single = require('../single');
 const multiple = require('../multiple');
 const fileLineReader = require('../file-line-reader');
+const uniq = require('../uniq');
 
 /**
  * Generate a sitemap using a file that lists urls.
@@ -17,11 +18,13 @@ const fileLineReader = require('../file-line-reader');
  */
 const fileGenerator = async params => {
   const {file, filepath = './sitemap.xml', max = 50000} = params;
-  let urls = [];
+  let raw = [];
   const func = data => {
-    urls.push(data);
+    raw.push(data);
   };
   await fileLineReader(file, func);
+
+  const urls = uniq(raw);
 
   // Count quantity of links and sitemaps
   const links = counter(urls);

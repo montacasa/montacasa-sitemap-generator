@@ -2,6 +2,7 @@ const counter = require('../counter');
 const calculator = require('../calculator');
 const single = require('../single');
 const multiple = require('../multiple');
+const uniq = require('../uniq');
 
 /**
  * List sitemap generator
@@ -15,7 +16,9 @@ const multiple = require('../multiple');
  * @returns {Promise<String>} The final single or multiple promises message.
  */
 const list = async params => {
-  const {urls, filepath = './sitemap.xml', max = 50000} = params;
+  const {urls: raw, filepath = './sitemap.xml', max = 50000} = params;
+  const urls = uniq(raw);
+
   // Count quantity of links and sitemaps
   const links = counter(urls);
   const sitemaps = calculator({max, quantity: links});
