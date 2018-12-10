@@ -1,11 +1,22 @@
 const fs = require('fs');
 
+/**
+ * Counts number of lines within a file.
+ *
+ * @param {String} filePath The file path.
+ * @returns {Promise<Number>} The resulting number.
+ */
 const countFileLines = filePath => {
   return new Promise((resolve, reject) => {
     let lineCount = 0;
     if (!filePath) {
       resolve(0);
     }
+    /**
+     * Opens a stream and reads the file
+     *
+     * @param {String} filePath
+     */
     fs.createReadStream(filePath)
       .on('data', buffer => {
         let idx = -1;
@@ -22,6 +33,12 @@ const countFileLines = filePath => {
   });
 };
 
+/**
+ * Counts number of ocurrences of a file or array.
+ *
+ * @param {String|Array} origin The filepath or array to count from.
+ * @returns {Promise<Number>|Number} The result.
+ */
 const counter = origin => {
   if (Array.isArray(origin)) {
     return origin.length;

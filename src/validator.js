@@ -1,3 +1,11 @@
+/**
+ * Validates some fields.
+ *
+ * @param {Object} fields The fiels to validate.
+ * @param {Array<String>} fields.urls An array of urls.
+ * @param {file} fields.file An string representing a filepath.
+ * @returns {Boolean} True if all is well.
+ */
 const validator = fields => {
   const {urls, file} = fields;
   if (!urls && !file) {

@@ -5,16 +5,16 @@ const sitemapsWriter = require('./sitemaps-writer');
 const indexGenerator = require('./index-generator');
 
 /**
- * Loop thought array of urls to read and create multiple sitemaps
+ * Loops thought array of urls to read and create multiple sitemaps.
  *
  * @param {Object} params
  * @param {String} params.filepath The filepath to generate the sitemap index (it is used to determinate the directory
- *                                 to generate the multiple sitemaps too)
- * @param {Number} params.count The number of links per sitemap
- * @param {Number} params.quantity The quantity of sitemaps to generate
- * @param {Array<String>} params.urls The list of urls to loop thought
- * @param {String} params.message The final message to return
- * @returns {Promise<String>} The final message
+ *                                 to generate the multiple sitemaps too).
+ * @param {Number} params.count The number of links per sitemap.
+ * @param {Number} params.quantity The quantity of sitemaps to generate.
+ * @param {Array<String>} params.urls The list of urls to loop thought.
+ * @param {String} params.message The final message to return.
+ * @returns {Promise<String>} The final message.
  */
 const linkReader = async params => {
   const {filepath, count, quantity, urls, message} = params; // TODO: remove count?

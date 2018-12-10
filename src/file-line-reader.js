@@ -1,5 +1,13 @@
 const fs = require('fs');
 
+// Source: https://stackoverflow.com/questions/6156501/read-a-file-one-line-at-a-time-in-node-js
+
+/**
+ * Reads a file line by line.
+ *
+ * @param {String} file The file path.
+ * @param {Function} func The callback function to execute on each line occurence.
+ */
 const fileLineReader = (file, func) => {
   return new Promise((resolve, reject) => {
     // Read file line by line
@@ -11,13 +19,13 @@ const fileLineReader = (file, func) => {
     }
     fs.createReadStream(file, {encoding: 'utf-8'})
       .on('data', function(chunk) {
-        // store the actual chunk into the remaining
+        // Store the actual chunk into the remaining
         remaining = remaining.concat(chunk);
 
-        // look that we have a linefeed
+        // Look that we have a linefeed
         const lastLineFeed = remaining.lastIndexOf(lineFeed);
 
-        // if we don't have any we can continue the reading
+        // If we don't have any we can continue the reading
         if (lastLineFeed === -1) {
           return;
         }
@@ -25,14 +33,14 @@ const fileLineReader = (file, func) => {
         const current = remaining.substring(0, lastLineFeed),
           lines = current.split(lineFeed);
 
-        // store from the last linefeed or empty it out
+        // Store from the last linefeed or empty it out
         remaining =
           lastLineFeed > remaining.length
             ? remaining.substring(lastLineFeed + 1, remaining.length)
             : '';
 
         for (let i = 0, length = lines.length; i < length; i++) {
-          // process the actual line
+          // Process the actual line
           _processLine(lines[i]);
         }
       })
@@ -41,7 +49,7 @@ const fileLineReader = (file, func) => {
       })
       .on('end', function() {
         // TODO I'm not sure this is needed, it depends on your data
-        // process the reamining data if needed
+        // Process the reamining data if needed
         if (remaining.length > 0) {
           _processLine(remaining);
         }

@@ -3,7 +3,19 @@ const calculator = require('../calculator');
 const single = require('../single');
 const multiple = require('../multiple');
 
-const list = async ({urls, filepath = './sitemap.xml', max = 50000}) => {
+/**
+ * List sitemap generator
+ *
+ * @param {Object} params
+ * @param {String} params.urls     An array containing all urls.
+ * @param {String} params.filepath The final path to write sitemaps to
+ * @param {Number} params.max      The maximum number of urls per sitemap (default is 50.000),
+ *                            according to stackoverflow question:
+ *                            https://stackoverflow.com/questions/2887358/limitation-for-google-sitemap-xml-file-size.
+ * @returns {Promise<String>} The final single or multiple promises message.
+ */
+const list = async params => {
+  const {urls, filepath = './sitemap.xml', max = 50000} = params;
   // Count quantity of links and sitemaps
   const links = counter(urls);
   const sitemaps = calculator({max, quantity: links});

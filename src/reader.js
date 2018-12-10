@@ -1,5 +1,11 @@
 const fs = require('fs');
 
+/**
+ * Reades a file.
+ *
+ * @param {String} filepath The file path.
+ * @returns {Promise<any>} The file data.
+ */
 function reader(filepath) {
   return new Promise((resolve, reject) => {
     let data = '';

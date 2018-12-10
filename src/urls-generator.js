@@ -1,6 +1,11 @@
 const urler = require('./urler');
 
-// Multiple count generator TODO: make a module out of this function
+/**
+ * Generates formated urls from an array.
+ *
+ * @param {Array<String>} list An array of urls.
+ * @returns {String} A formated list of urls.
+ */
 const urlsGenerator = list => {
   let finalList = '';
   for (let p in list) {
