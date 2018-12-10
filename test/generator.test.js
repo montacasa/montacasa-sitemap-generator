@@ -8,10 +8,12 @@ const reader = require('../src/reader');
 // Mocks
 const aParcialSitemap = require('./mocks/a-parcial-sitemap');
 const aSmallListOfLinks = require('./mocks/a-small-list-of-links');
+const aSmallListOfDuplicatedLinks = require('./mocks/a-small-list-of-duplicated-links');
 const aCompleteSitemap = require('./mocks/a-complete-sitemap');
 const aBiggerSitemapindex = require('./mocks/a-bigger-sitemapindex');
 
 const someLinksFile = './test/mocks/some-links-file';
+const someDuplicatedLinksFile = './test/mocks/some-duplicated-links-file';
 
 describe('Sitemap Generator', () => {
   // main
@@ -34,6 +36,13 @@ describe('Sitemap Generator', () => {
       it('should return a message for a single file', async () => {
         const filepath = './test/files/sitemap.xml';
         const file = someLinksFile;
+        const test = await main({file, filepath});
+        const message = 'DONE! One single sitemap generated with 6 links.';
+        assert.equal(test, message);
+      });
+      it('should remove duplicates while generating a single file', async () => {
+        const filepath = './test/files/sitemap.xml';
+        const file = someDuplicatedLinksFile;
         const test = await main({file, filepath});
         const message = 'DONE! One single sitemap generated with 6 links.';
         assert.equal(test, message);
@@ -80,6 +89,13 @@ describe('Sitemap Generator', () => {
         const read = await reader('./test/files/sitemap-0.xml');
         const expected = aParcialSitemap.replace(/(\r\n\t|\n|\r\t)/gm, '');
         assert.equal(read, expected);
+      });
+      it('should remove duplicates while generating a single file', async () => {
+        const filepath = './test/files/sitemap.xml';
+        const urls = aSmallListOfDuplicatedLinks;
+        const test = await main({urls, filepath});
+        const message = 'DONE! One single sitemap generated with 6 links.';
+        assert.equal(test, message);
       });
       it('should return a message for a multiple file', async () => {
         const filepath = './test/files/sitemap.xml';
