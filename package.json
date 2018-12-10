@@ -1,11 +1,13 @@
 {
   "name": "@montacasa/sitemap-generator",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Montacasa's frontend sitemap generator",
   "main": "lib/sitemap-generator.js",
   "author": "ti@montacasa.com.br",
   "scripts": {
     "build": "webpack",
+    "test": "mocha",
+    "test:watch": "mocha --recursive --watch --growl",
     "lint": "eslint ."
   },
   "dependencies": {
@@ -19,6 +21,8 @@
   },
   "devDependencies": {
     "@montacasa/cz-mc": "^0.2.0-rc.2",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
     "webpack": "^4.26.1",
     "webpack-cli": "^3.1.2"
   },

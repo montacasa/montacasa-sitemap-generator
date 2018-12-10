@@ -1,5 +1,7 @@
 /lib/*
-/sitemap.xml
+/sitemap*
+/test/files/
+/test/files/*
 
 # Created by https://www.gitignore.io/api/vim,linux,webstorm,code
 
