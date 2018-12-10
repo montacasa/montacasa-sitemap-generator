@@ -4,7 +4,11 @@ const single = require('../single');
 const multiple = require('../multiple');
 const fileLineReader = require('../file-line-reader');
 
-const file = async ({file, filepath = './sitemap.xml', max = 50000}) => {
+const fileGenerator = async ({
+  file,
+  filepath = './sitemap.xml',
+  max = 50000,
+}) => {
   let urls = [];
   const func = data => {
     urls.push(data);
@@ -24,4 +28,4 @@ const file = async ({file, filepath = './sitemap.xml', max = 50000}) => {
   }
 };
 
-module.exports = file;
+module.exports = fileGenerator;
