@@ -325,7 +325,7 @@ describe('misc', () => {
     });
     it('should validate if file variable is a string', () => {
       const error = 'File variable should be a string!';
-      expect(() => validator({file: 'string'})).to.throw(error);
+      expect(() => validator({file: 1})).to.throw(error);
     });
   });
 });
