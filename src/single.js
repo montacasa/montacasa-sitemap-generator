@@ -6,7 +6,7 @@ const writer = require('./writer');
  *
  * @param {Object} params
  * @param {Array<String>} params.urls An array of urls.
- * @param {Number} params.count The number of urls.
+ * @param {Promise<Number> | Number} params.count The number of urls.
  * @param {String} params.filepath The file path to write to.
  * @returns {Promise<any>} The promise's final message.
  */

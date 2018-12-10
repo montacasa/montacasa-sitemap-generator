@@ -10,7 +10,7 @@ const fileLineReader = require('../file-line-reader');
  * @param {Object} params
  * @param {String} params.file The path of the file containing urls.
  * @param {String} params.filepath The final path to write sitemaps to
- * @param {Number} params.max The maximum number of urls per sitemap (default is 50.000),
+ * @param {Number} [params.max] The maximum number of urls per sitemap (default is 50.000),
  *                            according to stackoverflow question:
  *                            https://stackoverflow.com/questions/2887358/limitation-for-google-sitemap-xml-file-size.
  * @returns {Promise<String>} The final single or multiple promises message.
