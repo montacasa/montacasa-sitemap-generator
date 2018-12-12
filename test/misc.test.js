@@ -63,8 +63,10 @@ describe('misc', () => {
         filepath: './test/files/sitemap-0.xml',
       });
       const read = await reader('./test/files/sitemap-0.xml');
-      const expected = aCompleteSitemap.replace(/(\r\n\t|\n|\r\t)/gm, '');
-      assert.equal(read, expected);
+      const result = read.replace(/(\r\n\t|\n|\r\t)/gm, '').replace(/\s/g, '');
+      const xml = aCompleteSitemap;
+      const expected = xml.replace(/(\r\n\t|\n|\r\t)/gm, '').replace(/\s/g, '');
+      assert.equal(result, expected);
     });
   });
 
@@ -75,9 +77,12 @@ describe('misc', () => {
     });
     it('should generate a list of urls parsed by urler', () => {
       const urls = ['www.example.com/link/1', 'www.example.com/link/2'];
-      const pages = urlsGenerator(urls);
-      const expected =
+      const pages = urlsGenerator(urls)
+        .replace(/(\r\n\t|\n|\r\t)/gm, '')
+        .replace(/\s/g, '');
+      const xml =
         '<url><loc>www.example.com/link/1</loc></url><url><loc>www.example.com/link/2</loc></url>';
+      const expected = xml.replace(/(\r\n\t|\n|\r\t)/gm, '').replace(/\s/g, '');
       assert.equal(pages, expected);
     });
   });
@@ -156,9 +161,12 @@ describe('misc', () => {
     });
     it('should format a sitemap', () => {
       const urls = ['link1', 'link2'];
-      const sitemap = sitemapFormater(urls);
-      const expected =
+      const sitemap = sitemapFormater(urls)
+        .replace(/(\r\n\t|\n|\r\t)/gm, '')
+        .replace(/\s/g, '');
+      const xml =
         '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>link1</loc></url><url><loc>link2</loc></url></urlset>'; // eslint-disable-line max-len
+      const expected = xml.replace(/(\r\n\t|\n|\r\t)/gm, '').replace(/\s/g, '');
       assert.equal(sitemap, expected);
     });
   });
@@ -176,8 +184,11 @@ describe('misc', () => {
         filepath,
       });
       const read = await reader('./test/files/sitemap-0.xml');
-      const expected = aParcialSitemap.replace(/(\r\n\t|\n|\r\t)/gm, '');
-      assert.equal(read, expected);
+      const result = read.replace(/(\r\n\t|\n|\r\t)/gm, '').replace(/\s/g, '');
+      const expected = aParcialSitemap
+        .replace(/(\r\n\t|\n|\r\t)/gm, '')
+        .replace(/\s/g, '');
+      assert.equal(result, expected);
     });
     it('should generate an index sitemap', async () => {
       const filepath = './test/files/sitemap.xml';
@@ -212,11 +223,13 @@ describe('misc', () => {
     });
     it('should generate a single file', async () => {
       const filepath = './test/files/sitemap.xml';
-      await single({urls: [0, 1, 2, 3], count: 4, filepath});
+      await single({urls: ['0', '1', '2', '3'], count: 4, filepath});
       const read = await reader(filepath);
-      const expected =
+      const result = read.replace(/(\r\n\t|\n|\r\t)/gm, '').replace(/\s/g, '');
+      const xml =
         '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>0</loc></url><url><loc>1</loc></url><url><loc>2</loc></url><url><loc>3</loc></url></urlset>'; // eslint-disable-line max-len
-      assert.equal(read, expected);
+      const expected = xml.replace(/(\r\n\t|\n|\r\t)/gm, '').replace(/\s/g, '');
+      assert.equal(result, expected);
     });
     it('should return a message for a single file', async () => {
       const filepath = './test/files/sitemap.xml';
@@ -233,7 +246,7 @@ describe('misc', () => {
     });
     it('should generate a sitemap loc url', () => {
       const url = urler('link1');
-      const result = '<url><loc>link1</loc></url>';
+      const result = '    <url><loc>link1</loc></url>\n';
       assert.equal(url, result);
     });
     // it('should generate a list of sitemap pages', () => {
@@ -254,9 +267,11 @@ describe('misc', () => {
         '<url><loc>link1</loc></url>',
         '<url><loc>link2</loc></url>',
       ]);
-      const result =
-        '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>link1</loc></url><url><loc>link2</loc></url></urlset>'; // eslint-disable-line max-len
-      assert.equal(pages, result);
+      const result = pages.replace(/(\r\n\t|\n|\r\t)/gm, '').replace(/\s/g, '');
+      const xml =
+        '<?xml version="1.0" encoding="UTF-8"?>\n  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>link1</loc></url><url><loc>link2</loc></url>  </urlset>'; // eslint-disable-line max-len
+      const expected = xml.replace(/(\r\n\t|\n|\r\t)/gm, '').replace(/\s/g, '');
+      assert.equal(result, expected);
     });
   });
 
