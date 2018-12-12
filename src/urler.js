@@ -5,7 +5,7 @@
  * @returns {String}
  */
 const urler = url => {
-  return `<url><loc>${url}</loc></url>`;
+  return `    <url><loc>${url}</loc></url>\n`;
 };
 
 module.exports = urler;
