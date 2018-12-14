@@ -5,6 +5,7 @@ const generator = require('./generator');
  * Wraps the sitemap-generator module.
  *
  * @param {Object} options
+ * @param {String} [params.domain] An optional domain string.
  * @param {Array<String>} [options.urls] An array of urls.
  * @param {String} [options.file] A file (path) with a list of urls.
  * @param {String} [options.filepath] The file path to write the generated sitemap to.
@@ -17,15 +18,15 @@ const main = async options => {
   // Validate options before going forward
   const validate = validator(options);
   if (validate) {
-    const {urls, file, filepath, max} = options;
+    const {domain, urls, file, filepath, max} = options;
 
     // Remove duplicates
     if (file) {
       // Use the urls file list to generate by file system
-      return await generator.file({file, filepath});
+      return await generator.file({domain, file, filepath});
     }
     // Use the urls list to generate by list
-    return await generator.list({urls, filepath, max});
+    return await generator.list({domain, urls, filepath, max});
   }
   return false;
 };
