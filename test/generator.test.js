@@ -27,39 +27,39 @@ describe('Sitemap Generator', () => {
     });
     describe('file', () => {
       it('should generate a single file', async () => {
-        const filepath = './test/files/sitemap.xml';
-        await main({filepath, file: './test/mocks/some-links-file'});
+        const filepath = `${__dirname}/files/sitemap.xml`;
+        await main({filepath, file: `${__dirname}/mocks/some-links-file`});
         const read = await reader(filepath);
         const expected = aCompleteSitemap;
         assert.equal(read, expected);
       });
       it('should return a message for a single file', async () => {
-        const filepath = './test/files/sitemap.xml';
+        const filepath = `${__dirname}/files/sitemap.xml`;
         const file = someLinksFile;
         const test = await main({file, filepath});
         const message = 'DONE! One single sitemap generated with 6 links.';
         assert.equal(test, message);
       });
       it('should remove duplicates while generating a single file', async () => {
-        const filepath = './test/files/sitemap.xml';
+        const filepath = `${__dirname}/files/sitemap.xml`;
         const file = someDuplicatedLinksFile;
         const test = await main({file, filepath});
         const message = 'DONE! One single sitemap generated with 6 links.';
         assert.equal(test, message);
       });
       it('should generate multiple sitemaps', async () => {
-        const filepath = './test/files/sitemap.xml';
+        const filepath = `${__dirname}/files/sitemap.xml`;
         await main({
           urls: aSmallListOfLinks,
           filepath,
           max: 2,
         });
-        const read = await reader('./test/files/sitemap-0.xml');
+        const read = await reader(`${__dirname}/files/sitemap-0.xml`);
         const expected = aParcialSitemap;
         assert.equal(read, expected);
       });
       it('should return a message for a multiple file', async () => {
-        const filepath = './test/files/sitemap.xml';
+        const filepath = `${__dirname}/files/sitemap.xml`;
         const sitemaps = await main({
           urls: aSmallListOfLinks,
           max: 2,
@@ -73,7 +73,7 @@ describe('Sitemap Generator', () => {
     describe('list', () => {
       it('should generate a single sitemap using a file', async () => {
         const urls = aSmallListOfLinks;
-        const filepath = './test/files/sitemap.xml';
+        const filepath = `${__dirname}/files/sitemap.xml`;
         await main({urls, filepath});
         const read = await reader(filepath);
         const result = read.replace(/(\r\n\t|\n|\r\t)/gm, '').replace(/\s/g, '');
@@ -82,13 +82,13 @@ describe('Sitemap Generator', () => {
         assert.equal(result, expected);
       });
       it('should generate multiple sitemaps', async () => {
-        const filepath = './test/files/sitemap.xml';
+        const filepath = `${__dirname}/files/sitemap.xml`;
         await main({
           urls: aSmallListOfLinks,
           filepath,
           max: 2,
         });
-        const read = await reader('./test/files/sitemap-0.xml');
+        const read = await reader(`${__dirname}/files/sitemap-0.xml`);
         const result = read
           .replace(/(\r\n\t|\n|\r\t)/gm, '')
           .replace(/\s/g, '');
@@ -99,14 +99,14 @@ describe('Sitemap Generator', () => {
         assert.equal(result, expected);
       });
       it('should remove duplicates while generating a single file', async () => {
-        const filepath = './test/files/sitemap.xml';
+        const filepath = `${__dirname}/files/sitemap.xml`;
         const urls = aSmallListOfDuplicatedLinks;
         const test = await main({urls, filepath});
         const message = 'DONE! One single sitemap generated with 6 links.';
         assert.equal(test, message);
       });
       it('should return a message for a multiple file', async () => {
-        const filepath = './test/files/sitemap.xml';
+        const filepath = `${__dirname}/files/sitemap.xml`;
         const sitemaps = await main({
           urls: aSmallListOfLinks,
           filepath,
@@ -135,8 +135,8 @@ describe('Sitemap Generator', () => {
       });
       describe('single file', () => {
         it('should generate a single file', async () => {
-          const filepath = './test/files/sitemap.xml';
-          await file({filepath, file: './test/mocks/some-links-file'});
+          const filepath = `${__dirname}/files/sitemap.xml`;
+          await file({filepath, file: `${__dirname}/mocks/some-links-file`});
           const read = await reader(filepath);
           const result = read
             .replace(/(\r\n\t|\n|\r\t)/gm, '')
@@ -147,7 +147,7 @@ describe('Sitemap Generator', () => {
           assert.equal(result, expected);
         });
         it('should return a message for a single file', async () => {
-          const filepath = './test/files/sitemap.xml';
+          const filepath = `${__dirname}/files/sitemap.xml`;
           const result = await file({file: someLinksFile, filepath});
           const message = 'DONE! One single sitemap generated with 6 links.';
           assert.equal(result, message);
@@ -155,10 +155,10 @@ describe('Sitemap Generator', () => {
       });
       describe('multiple files', () => {
         it('should generate a sitemap index', async () => {
-          const filepath = './test/files/sitemap.xml';
+          const filepath = `${__dirname}/files/sitemap.xml`;
           await file({
             filepath,
-            file: './test/mocks/a-half-million-links-file',
+            file: `${__dirname}/mocks/a-half-million-links-file`,
           });
           const read = await reader(filepath);
           const expected = aBiggerSitemapindex.replace(
@@ -177,7 +177,7 @@ describe('Sitemap Generator', () => {
       });
       describe('single file', () => {
         it('should generate a single file', async () => {
-          const filepath = './test/files/sitemap.xml';
+          const filepath = `${__dirname}/files/sitemap.xml`;
           await list({urls: ['0', '1', '2', '3'], filepath});
           const read = await reader(filepath);
           const result = read
@@ -191,7 +191,7 @@ describe('Sitemap Generator', () => {
           assert.equal(result, expected);
         });
         it('should return a message for a single file', async () => {
-          const filepath = './test/files/sitemap.xml';
+          const filepath = `${__dirname}/files/sitemap.xml`;
           const test = await list({urls: ['0', '1', '2', '3'], filepath});
           const message = 'DONE! One single sitemap generated with 4 links.';
           assert.equal(test, message);
@@ -199,13 +199,13 @@ describe('Sitemap Generator', () => {
       });
       describe('multiple files', () => {
         it('should generate multiple sitemaps', async () => {
-          const filepath = './test/files/sitemap.xml';
+          const filepath = `${__dirname}/files/sitemap.xml`;
           await list({
             urls: aSmallListOfLinks,
             filepath,
             max: 2,
           });
-          const read = await reader('./test/files/sitemap-0.xml');
+          const read = await reader(`${__dirname}/files/sitemap-0.xml`);
           const result = read
             .replace(/(\r\n\t|\n|\r\t)/gm, '')
             .replace(/\s/g, '');
@@ -215,7 +215,7 @@ describe('Sitemap Generator', () => {
           assert.equal(result, expected);
         });
         it('should return a message for a multiple file', async () => {
-          const filepath = './test/files/sitemap.xml';
+          const filepath = `${__dirname}/files/sitemap.xml`;
           const sitemaps = await list({
             urls: aSmallListOfLinks,
             max: 2,

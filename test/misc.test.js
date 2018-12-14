@@ -37,7 +37,7 @@ describe('misc', () => {
       const func = data => {
         arr.push(data);
       };
-      const dummy = './test/mocks/dummy';
+      const dummy = `${__dirname}/mocks/dummy`;
       await fileLineReader(dummy, func);
       const expected = ['0', '1', '2'];
       assert.deepEqual(arr, expected);
@@ -60,9 +60,9 @@ describe('misc', () => {
       const list = urlsGenerator(aSmallListOfLinks);
       await sitemapsWriter({
         list,
-        filepath: './test/files/sitemap-0.xml',
+        filepath: `${__dirname}/files/sitemap-0.xml`,
       });
-      const read = await reader('./test/files/sitemap-0.xml');
+      const read = await reader(`${__dirname}/files/sitemap-0.xml`);
       const result = read.replace(/(\r\n\t|\n|\r\t)/gm, '').replace(/\s/g, '');
       const xml = aCompleteSitemap;
       const expected = xml.replace(/(\r\n\t|\n|\r\t)/gm, '').replace(/\s/g, '');
@@ -104,13 +104,13 @@ describe('misc', () => {
       const config = fileConfigurator({
         number: 1,
         domain,
-        filepath: './test/files/sitemap.xml',
+        filepath: `${__dirname}/files/sitemap.xml`,
       });
       const {fullPath, path, name} = config;
       const expectedName = 'sitemap-1.xml';
       assert.equal(name, expectedName);
       assert.equal(fullPath, `${domain}/${expectedName}`);
-      assert.equal(path, './test/files');
+      assert.equal(path, `${__dirname}/files`);
     });
   });
 
@@ -139,7 +139,7 @@ describe('misc', () => {
     });
     it('should write a file', async () => {
       const file = 'this is a file';
-      const filepath = './test/files/file';
+      const filepath = `${__dirname}/files/file`;
       const message = 'DONE';
       await writer({file, filepath, message});
       const read = await reader(filepath);
@@ -147,7 +147,7 @@ describe('misc', () => {
     });
     it('should resolve after writing a file file', async () => {
       const file = 'test';
-      const filepath = './test/files/file';
+      const filepath = `${__dirname}/files/file`;
       const message = 'DONE';
       const write = await writer({file, filepath, message});
       assert.equal(write, 'DONE');
@@ -176,14 +176,14 @@ describe('misc', () => {
       assert.typeOf(multiple, 'function');
     });
     it('should generate multiple sitemaps', async () => {
-      const filepath = './test/files/sitemap.xml';
+      const filepath = `${__dirname}/files/sitemap.xml`;
       await multiple({
         urls: aSmallListOfLinks,
         count: 6,
         quantity: 3,
         filepath,
       });
-      const read = await reader('./test/files/sitemap-0.xml');
+      const read = await reader(`${__dirname}/files/sitemap-0.xml`);
       const result = read.replace(/(\r\n\t|\n|\r\t)/gm, '').replace(/\s/g, '');
       const expected = aParcialSitemap
         .replace(/(\r\n\t|\n|\r\t)/gm, '')
@@ -191,7 +191,7 @@ describe('misc', () => {
       assert.equal(result, expected);
     });
     it('should generate an index sitemap', async () => {
-      const filepath = './test/files/sitemap.xml';
+      const filepath = `${__dirname}/files/sitemap.xml`;
       await multiple({
         urls: aSmallListOfLinks,
         count: 6,
@@ -203,7 +203,7 @@ describe('misc', () => {
       assert.equal(read, expected);
     });
     it('should return a message for a multiple file', async () => {
-      const filepath = './test/files/sitemap.xml';
+      const filepath = `${__dirname}/files/sitemap.xml`;
       const sitemaps = await multiple({
         urls: aSmallListOfLinks,
         count: 6,
@@ -222,7 +222,7 @@ describe('misc', () => {
       assert.typeOf(single, 'function');
     });
     it('should generate a single file', async () => {
-      const filepath = './test/files/sitemap.xml';
+      const filepath = `${__dirname}/files/sitemap.xml`;
       await single({urls: ['0', '1', '2', '3'], count: 4, filepath});
       const read = await reader(filepath);
       const result = read.replace(/(\r\n\t|\n|\r\t)/gm, '').replace(/\s/g, '');
@@ -232,7 +232,7 @@ describe('misc', () => {
       assert.equal(result, expected);
     });
     it('should return a message for a single file', async () => {
-      const filepath = './test/files/sitemap.xml';
+      const filepath = `${__dirname}/files/sitemap.xml`;
       const sitemap = await single({urls: [0, 1, 2, 3], count: 4, filepath});
       const message = 'DONE! One single sitemap generated with 4 links.';
       assert.equal(sitemap, message);
@@ -304,7 +304,7 @@ describe('misc', () => {
       assert.deepEqual(list, 3);
     });
     it('should count the number of items on a file', async () => {
-      const dummy = './test/mocks/dummy';
+      const dummy = `${__dirname}/mocks/dummy`;
       const result = await counter(dummy);
       assert.equal(result, 3);
     });
