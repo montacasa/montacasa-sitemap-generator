@@ -12,6 +12,8 @@ const aSmallListOfDuplicatedLinks = require('./mocks/a-small-list-of-duplicated-
 const aCompleteSitemap = require('./mocks/a-complete-sitemap');
 const aBiggerSitemapindex = require('./mocks/a-bigger-sitemapindex');
 
+const parseString = require('./helpers/parse-string.js');
+
 const someLinksFile = `${__dirname}/mocks/some-links-file`;
 const someDuplicatedLinksFile = `${__dirname}/mocks/some-duplicated-links-file`;
 
@@ -76,13 +78,9 @@ describe('Sitemap Generator', () => {
         const filepath = `${__dirname}/files/sitemap.xml`;
         await main({urls, filepath});
         const read = await reader(filepath);
-        const result = read
-          .replace(/(\r\n\t|\n|\r\t)/gm, '')
-          .replace(/\s/g, '');
+        const result = parseString(read);
         const xml = aCompleteSitemap.replace(/(\r\n\t|\n|\r\t)/gm, '');
-        const expected = xml
-          .replace(/(\r\n\t|\n|\r\t)/gm, '')
-          .replace(/\s/g, '');
+        const expected = parseString(xml);
         assert.equal(result, expected);
       });
       it('should generate multiple sitemaps', async () => {
@@ -93,13 +91,9 @@ describe('Sitemap Generator', () => {
           max: 2,
         });
         const read = await reader(`${__dirname}/files/sitemap-0.xml`);
-        const result = read
-          .replace(/(\r\n\t|\n|\r\t)/gm, '')
-          .replace(/\s/g, '');
+        const result = parseString(read);
         const xml = aParcialSitemap.replace(/(\r\n\t|\n|\r\t)/gm, '');
-        const expected = xml
-          .replace(/(\r\n\t|\n|\r\t)/gm, '')
-          .replace(/\s/g, '');
+        const expected = parseString(xml);
         assert.equal(result, expected);
       });
       it('should remove duplicates while generating a single file', async () => {
@@ -142,12 +136,8 @@ describe('Sitemap Generator', () => {
           const filepath = `${__dirname}/files/sitemap.xml`;
           await file({filepath, file: `${__dirname}/mocks/some-links-file`});
           const read = await reader(filepath);
-          const result = read
-            .replace(/(\r\n\t|\n|\r\t)/gm, '')
-            .replace(/\s/g, '');
-          const expected = aCompleteSitemap
-            .replace(/(\r\n\t|\n|\r\t)/gm, '')
-            .replace(/\s/g, '');
+          const result = parseString(read);
+          const expected = parseString(aCompleteSitemap);
           assert.equal(result, expected);
         });
         it('should return a message for a single file', async () => {
@@ -189,9 +179,7 @@ describe('Sitemap Generator', () => {
             .replace(/\s/g, '');
           const xml =
             '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>0</loc></url><url><loc>1</loc></url><url><loc>2</loc></url><url><loc>3</loc></url></urlset>'; // eslint-disable-line max-len
-          const expected = xml
-            .replace(/(\r\n\t|\n|\r\t)/gm, '')
-            .replace(/\s/g, '');
+          const expected = parseString(xml);
           assert.equal(result, expected);
         });
         it('should return a message for a single file', async () => {
@@ -210,12 +198,8 @@ describe('Sitemap Generator', () => {
             max: 2,
           });
           const read = await reader(`${__dirname}/files/sitemap-0.xml`);
-          const result = read
-            .replace(/(\r\n\t|\n|\r\t)/gm, '')
-            .replace(/\s/g, '');
-          const expected = aParcialSitemap
-            .replace(/(\r\n\t|\n|\r\t)/gm, '')
-            .replace(/\s/g, '');
+          const result = parseString(read);
+          const expected = parseString(aParcialSitemap);
           assert.equal(result, expected);
         });
         it('should return a message for a multiple file', async () => {
