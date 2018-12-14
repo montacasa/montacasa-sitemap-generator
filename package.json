@@ -5,6 +5,14 @@
   "main": "lib/sitemap-generator.js",
   "author": "ti@montacasa.com.br",
   "licence": "MIT",
+  "keywords": [
+    "sitemap",
+    "sitemap.xml",
+    "generator",
+    "sitemap index",
+    "sitemaps",
+    "multiple sitemaps"
+  ],
   "scripts": {
     "build": "webpack",
     "test": "mocha",
