@@ -8,8 +8,8 @@ of links exceeds the maximum per sitemap.
 ## Usage
 
 - Install the package with `npm i @montacasa/sitemap-generator`.
-- And run the generator script with a list of links, either a variable (array)
-or a file, containing one link per line.
+- And run the generator script with a list of links - either a variable of type array
+or a file containing one link per line.
 
 ### Example with a variable
 
@@ -77,7 +77,7 @@ sitemap(); // 'DONE! One single sitemap generated with 3 links.'
   Optional. If not provided, the domain is extracted from the first link in
   the links list (either the file or array).
 
-  The `domain` to be used in the sitemapindex file. E.g.:
+  The `domain` is to be used in the sitemap index file. E.g.:
 
   ```
   <?xml version="1.0" encoding="UTF-8"?>
@@ -103,8 +103,8 @@ If both `urls` and `file` are provided, `file` will prevail over `urls`.
 ### Multiple sitemaps
 
 If the number of links in `urls` or `file` is higher then `max`, the sitemap will be split in
-as many sitemaps as needed at the same dir, and a sitemapindex will be created at
+as many sitemaps as needed at the same dir, and a sitemap index will be created at
 `filepath`.
 
 In that case, supposing you are using default values, **sitemap.xml** would be the sitemap index and the sitemaps would
-be named **sitemap-0.xml** **sitemap-1.xml** and so on, topping 50k links each.
+be named **sitemap-0.xml**,  **sitemap-1.xml** and so on, with maximum 50k links each.
