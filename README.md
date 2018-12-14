@@ -8,29 +8,33 @@ of links exceeds the maximum per sitemap.
 ## Usage
 
 - Install the package with `npm i @montacasa/sitemap-generator`.
-- And run it with a list of links - either a variable of type array
-or a file containing one link per line.
+- And run it with a list of links - either a variable of type array or a file
+containing one link per line.
 
 ### Example with a variable
 
 ```
-const generator = require('@montacasa/sitemap-generator');
+  const generator = require('@montacasa/sitemap-generator');
 
-// Define the sitemap urls
-const urls = ["https://www.example.com/path/1", "https://www.example.com/path/2", "https://www.example.com/path/3" ];
+  // Define the sitemap urls
+  const urls = [
+    "https://www.example.com/path/1",
+    "https://www.example.com/path/2",
+    "https://www.example.com/path/3"
+  ];
 
-// ..and some other options
-const filepath = './src/sitemap.xml';
-const domain = 'https://www.example.com';
+  // ..and some other options
+  const filepath = './src/sitemap.xml';
+  const domain = 'https://www.example.com';
 
-// Create an async function
-const sitemap = async() => {
-  const message = await generator({domain, filepath, urls});
-  console.info(message);
-}
+  // Create an async function
+  const sitemap = async() => {
+    const message = await generator({domain, filepath, urls});
+    console.info(message);
+  }
 
-// Generate!
-sitemap(); // 'DONE! One single sitemap generated with 3 links.'
+  // Generate!
+  sitemap(); // 'DONE! One single sitemap generated with 3 links.'
 ```
 
 ## Options
