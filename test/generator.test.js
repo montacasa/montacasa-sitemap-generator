@@ -11,6 +11,7 @@ const aSmallListOfLinks = require('./mocks/a-small-list-of-links');
 const aSmallListOfDuplicatedLinks = require('./mocks/a-small-list-of-duplicated-links');
 const aCompleteSitemap = require('./mocks/a-complete-sitemap');
 const aBiggerSitemapindex = require('./mocks/a-bigger-sitemapindex');
+const aSimpleSitemapindex = require('./mocks/a-simple-sitemapindex');
 
 const parseString = require('./helpers/parse-string.js');
 
@@ -148,6 +149,21 @@ describe('Sitemap Generator', () => {
         });
       });
       describe('multiple files', () => {
+        it('should accept a domain variable', async () => {
+          const filepath = `${__dirname}/files/sitemap.xml`;
+          const domain = 'https://www.another-domain.com';
+          await file({
+            domain,
+            filepath,
+            file: `${__dirname}/mocks/a-hundred-thousand-links-file`,
+          });
+          const read = await reader(filepath);
+          const expected = aSimpleSitemapindex.replace(
+            /(\r\n\t|\n|\r\t)/gm,
+            '',
+          );
+          assert.equal(read, expected);
+        });
         it('should generate a sitemap index', async () => {
           const filepath = `${__dirname}/files/sitemap.xml`;
           await file({
