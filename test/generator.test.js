@@ -76,9 +76,13 @@ describe('Sitemap Generator', () => {
         const filepath = `${__dirname}/files/sitemap.xml`;
         await main({urls, filepath});
         const read = await reader(filepath);
-        const result = read.replace(/(\r\n\t|\n|\r\t)/gm, '').replace(/\s/g, '');
+        const result = read
+          .replace(/(\r\n\t|\n|\r\t)/gm, '')
+          .replace(/\s/g, '');
         const xml = aCompleteSitemap.replace(/(\r\n\t|\n|\r\t)/gm, '');
-        const expected = xml.replace(/(\r\n\t|\n|\r\t)/gm, '').replace(/\s/g, '');
+        const expected = xml
+          .replace(/(\r\n\t|\n|\r\t)/gm, '')
+          .replace(/\s/g, '');
         assert.equal(result, expected);
       });
       it('should generate multiple sitemaps', async () => {
