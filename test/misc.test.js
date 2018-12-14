@@ -1,4 +1,4 @@
-/* global describe it */
+/* global describe it __dirname */
 const {assert, expect} = require('chai');
 
 const validator = require('../src/validator');
@@ -21,10 +21,10 @@ const indexGenerator = require('../src/index-generator');
 const fileLineReader = require('../src/file-line-reader');
 
 // Mocks
-const aParcialSitemap = require('./mocks/a-parcial-sitemap');
-const aCompleteSitemap = require('./mocks/a-complete-sitemap');
+const aParcialSitemap = require(`${__dirname}/mocks/a-parcial-sitemap`);
+const aCompleteSitemap = require(`${__dirname}/mocks/a-complete-sitemap`);
 const aSitemapIndex = require('./mocks/a-sitemapindex');
-const aSmallListOfLinks = require('./mocks/a-small-list-of-links');
+const aSmallListOfLinks = require(`${__dirname}/mocks/a-small-list-of-links`);
 
 describe('misc', () => {
   // file line reader
