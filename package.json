@@ -11,16 +11,14 @@
     "test:watch": "mocha --recursive --watch --growl",
     "lint": "eslint ."
   },
-  "dependencies": {
+  "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-eslint": "^8.2.5",
     "eslint": "^5.0.1",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-prettier": "^2.6.1",
-    "prettier": "^1.13.6"
-  },
-  "devDependencies": {
+    "prettier": "^1.13.6",
     "@montacasa/cz-mc": "^0.2.0-rc.2",
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
