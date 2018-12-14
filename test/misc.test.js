@@ -37,7 +37,7 @@ describe('misc', () => {
       const func = data => {
         arr.push(data);
       };
-      const dummy = './test/dummy';
+      const dummy = './test/mocks/dummy';
       await fileLineReader(dummy, func);
       const expected = ['0', '1', '2'];
       assert.deepEqual(arr, expected);
@@ -304,7 +304,7 @@ describe('misc', () => {
       assert.deepEqual(list, 3);
     });
     it('should count the number of items on a file', async () => {
-      const dummy = './test/dummy';
+      const dummy = './test/mocks/dummy';
       const result = await counter(dummy);
       assert.equal(result, 3);
     });
