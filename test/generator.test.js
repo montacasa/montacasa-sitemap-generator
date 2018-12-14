@@ -1,4 +1,4 @@
-/* global describe it */
+/* global describe it __dirname */
 const {assert} = require('chai');
 
 const main = require('../src/main');
@@ -12,8 +12,8 @@ const aSmallListOfDuplicatedLinks = require('./mocks/a-small-list-of-duplicated-
 const aCompleteSitemap = require('./mocks/a-complete-sitemap');
 const aBiggerSitemapindex = require('./mocks/a-bigger-sitemapindex');
 
-const someLinksFile = './test/mocks/some-links-file';
-const someDuplicatedLinksFile = './test/mocks/some-duplicated-links-file';
+const someLinksFile = `${__dirname}/mocks/some-links-file`;
+const someDuplicatedLinksFile = `${__dirname}/mocks/some-duplicated-links-file`;
 
 describe('Sitemap Generator', () => {
   // main
