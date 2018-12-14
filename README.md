@@ -1,4 +1,4 @@
-# Montacasa Sitemap Generator
+# Sitemap Generator
 
 Generates a **sitemap.xml** from a given list of links.
 
@@ -33,9 +33,9 @@ const sitemap = async() => {
 sitemap(); // 'DONE! One single sitemap generated with 3 links.'
 ```
 
-### API
+## Options
 
-- `urls`:
+### urls
 
   An array of links. Optional.
 
@@ -63,16 +63,17 @@ sitemap(); // 'DONE! One single sitemap generated with 3 links.'
   ...
   ```
 
-- `max`:
+### max
 
   The maximum number of links per sitemap. Optional, default is 50.000
   according to [sitemaps.org FAQ](https://www.sitemaps.org/faq.html#faq_sitemap_size).
-- `filepath`:
+
+### filepath
 
   The path to which the generator should write the sitemap(s). Optional,
   default is `./sitemap.xml`.
 
-- `domain`:
+### domain
 
   Optional. If not provided, the domain is extracted from the first link in
   the links list (either the file or array).
@@ -93,6 +94,8 @@ sitemap(); // 'DONE! One single sitemap generated with 3 links.'
     </sitemap>
   </sitemapindex>
   ```
+
+---
 
 ### List of links
 
