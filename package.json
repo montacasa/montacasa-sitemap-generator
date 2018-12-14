@@ -4,6 +4,7 @@
   "description": "Montacasa's frontend sitemap generator",
   "main": "lib/sitemap-generator.js",
   "author": "ti@montacasa.com.br",
+  "licence": "MIT",
   "scripts": {
     "build": "webpack",
     "test": "mocha",
