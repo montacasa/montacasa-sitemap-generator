@@ -20,6 +20,8 @@ const sitemapsWriter = require('../src/sitemaps-writer');
 const indexGenerator = require('../src/index-generator');
 const fileLineReader = require('../src/file-line-reader');
 
+const parseString = require('./helpers/parse-string');
+
 // Mocks
 const aParcialSitemap = require(`${__dirname}/mocks/a-parcial-sitemap`);
 const aCompleteSitemap = require(`${__dirname}/mocks/a-complete-sitemap`);
@@ -249,12 +251,6 @@ describe('misc', () => {
       const result = '    <url><loc>link1</loc></url>\n';
       assert.equal(url, result);
     });
-    // it('should generate a list of sitemap pages', () => {
-    //   const pages = pager(['link1', 'link2']);
-    //   const result =
-    //     '<url><loc>link1</loc></url> <url><loc>link2</loc></url> ';
-    //   assert.equal(pages, result);
-    // });
   });
 
   // pager
@@ -267,7 +263,7 @@ describe('misc', () => {
         '<url><loc>link1</loc></url>',
         '<url><loc>link2</loc></url>',
       ]);
-      const result = pages.replace(/(\r\n\t|\n|\r\t)/gm, '').replace(/\s/g, '');
+      const result = parseString(pages);
       const xml =
         '<?xml version="1.0" encoding="UTF-8"?>\n  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>link1</loc></url><url><loc>link2</loc></url>  </urlset>'; // eslint-disable-line max-len
       const expected = xml.replace(/(\r\n\t|\n|\r\t)/gm, '').replace(/\s/g, '');

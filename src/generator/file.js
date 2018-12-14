@@ -9,6 +9,7 @@ const uniq = require('../uniq');
  * Generate a sitemap using a file that lists urls.
  *
  * @param {Object} params
+ * @param {String} [params.domain] An optional domain string.
  * @param {String} params.file The path of the file containing urls.
  * @param {String} params.filepath The final path to write sitemaps to
  * @param {Number} [params.max] The maximum number of urls per sitemap (default is 50.000),
@@ -17,7 +18,7 @@ const uniq = require('../uniq');
  * @returns {Promise<String>} The final single or multiple promises message.
  */
 const fileGenerator = async params => {
-  const {file, filepath = './sitemap.xml', max = 50000} = params;
+  const {domain, file, filepath = './sitemap.xml', max = 50000} = params;
   let raw = [];
   const func = data => {
     raw.push(data);
@@ -35,7 +36,13 @@ const fileGenerator = async params => {
     case 1:
       return single({urls: urls, count: links, filepath});
     default:
-      return multiple({urls, count: links, quantity: sitemaps, filepath});
+      return multiple({
+        domain,
+        urls,
+        count: links,
+        quantity: sitemaps,
+        filepath,
+      });
   }
 };
 
